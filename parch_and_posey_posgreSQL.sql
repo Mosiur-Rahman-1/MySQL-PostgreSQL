@@ -173,3 +173,28 @@ FROM accounts
 WHERE (name LIKE 'C%' OR name LIKE 'W%')
   AND ((primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%')
   AND primary_poc NOT LIKE '%eana%')
+
+
+
+
+
+-- SQL Joins
+
+-- Try pulling all the data from the accounts table, and all the data from the orders table.
+SELECT *
+FROM accounts
+JOIN orders
+	ON accounts.id = orders.account_id
+
+
+-- Try pulling standard_qty, gloss_qty, and poster_qty from the orders table, and the website and the primary_poc from the accounts table.
+SELECT 
+	website,
+	primary_poc,
+	standard_qty,
+	gloss_qty,
+	poster_qty
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+

@@ -202,7 +202,7 @@ JOIN accounts
 
 SELECT 
 	primary_poc,
-	occurred_at,
+	occurred_at AS time_of_the_event,
 	channel,
 	name
 FROM web_events

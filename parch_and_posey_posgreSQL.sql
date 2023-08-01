@@ -246,3 +246,26 @@ JOIN accounts
 	ON sales_reps.id = accounts.sales_rep_id
 JOIN orders
 	ON accounts.id = orders.account_id
+
+
+
+
+
+--JOINs and Filtering
+
+
+
+Provide a table that provides the region for each sales_rep along with their associated accounts. This time only for the Midwest region. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) according to account name.
+
+SELECT 
+	region.name AS region_name,
+	sales_reps.name AS sales_rep_name,
+	accounts.name AS account_name
+
+FROM accounts
+JOIN sales_reps
+	ON accounts.sales_rep_id = sales_reps.id
+JOIN region
+	ON sales_reps.region_id = region.id
+	AND region.name = 'Midwest'
+ORDER BY accounts.name

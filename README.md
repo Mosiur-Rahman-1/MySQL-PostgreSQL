@@ -1,2 +1,2 @@
 # postgreSQL
-A note about PostgreSQL and it's command. Where i tried to find different data insights by querying the database and it's different tables.
+A Excercise note for SQL (MySQL and PostgreSQL). Here i tried to find different data insights/answers for different business questions by querying the different sample and real companies dataset from their different tables.

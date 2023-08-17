@@ -523,13 +523,14 @@ ORDER BY total_usd
 
 -- Find the number of sales reps in each region. Your final table should have two columns - the region and the number of sales_reps. Order from fewest reps to most reps.
 
-SELECT 
+SELECT
 	region.name AS region_name,
 	COUNT(sales_reps.id) AS total_sales_reps
-FROM accounts
-JOIN sales_reps
-	ON accounts.sales_rep_id = sales_reps.id
+FROM sales_reps
 JOIN region
 	ON sales_reps.region_id = region.id
 GROUP BY region.name
 ORDER BY total_sales_reps
+
+
+

@@ -595,3 +595,31 @@ JOIN region
 	ON sales_reps.region_id = region.id
 GROUP BY region_name, channel_name
 ORDER BY number_of_occurence DESC
+
+
+
+
+-- #### DISTINCT , HAVING
+
+
+-- ## DISTINCT
+-- Use DISTINCT to test if there are any accounts associated with more than one region.
+
+SELECT DISTINCT 
+	accounts.id,
+	region.name
+FROM accounts
+JOIN sales_reps
+	ON accounts.sales_rep_id = sales_reps.id
+JOIN region
+	ON sales_reps.region_id = region.id
+
+
+-- Have any sales reps worked on more than one account?
+
+SELECT DISTINCT
+	accounts.id,
+	sales_reps.name
+FROM accounts
+JOIN sales_reps
+	ON accounts.sales_rep_id = sales_reps.id

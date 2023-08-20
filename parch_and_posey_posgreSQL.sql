@@ -623,3 +623,132 @@ SELECT DISTINCT
 FROM accounts
 JOIN sales_reps
 	ON accounts.sales_rep_id = sales_reps.id
+
+
+-- ## HAVING
+-- How many of the sales reps have more than 5 accounts that they manage?
+
+SELECT DISTINCT
+	sales_reps.id AS sales_reps_id,
+	COUNT(accounts.id) AS number_account_managed
+FROM accounts
+JOIN sales_reps
+	ON accounts.sales_rep_id = sales_reps.id
+GROUP BY sales_reps.id
+HAVING COUNT(accounts.id) > 5
+ORDER BY number_account_managed DESC
+
+-- How many accounts have more than 20 orders?
+
+SELECT 
+	accounts.id AS account,
+	COUNT(orders.total) AS orders
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+HAVING COUNT(orders.total) > 20
+ORDER BY orders
+
+-- Which account has the most orders?
+
+SELECT 
+	accounts.id AS account,
+	COUNT(orders.total) AS orders
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+HAVING COUNT(orders.total) > 20
+ORDER BY orders DESC
+LIMIT 1
+
+-- Which accounts spent more than 30,000 usd total across all orders?
+
+SELECT 
+	accounts.id AS account,
+	SUM(orders.total_amt_usd) AS orders_total_amt_usd
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+HAVING SUM(orders.total_amt_usd) > 30000
+ORDER BY orders_total_amt_usd DESC
+
+-- Which accounts spent less than 1,000 usd total across all orders?
+SELECT 
+	accounts.id AS account,
+	SUM(orders.total_amt_usd) AS orders_total_amt_usd
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+HAVING SUM(orders.total_amt_usd) < 1000
+ORDER BY orders_total_amt_usd
+
+-- Which account has spent the most with us?
+SELECT 
+	accounts.id AS account,
+	SUM(orders.total_amt_usd) AS orders_total_amt_usd
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+ORDER BY orders_total_amt_usd DESC
+LIMIT 1
+
+-- Which account has spent the least with us?
+SELECT 
+	accounts.id AS account,
+	SUM(orders.total_amt_usd) AS orders_total_amt_usd
+	
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+GROUP BY account
+ORDER BY orders_total_amt_usd
+LIMIT 1
+
+-- Which accounts used facebook as a channel to contact customers more than 6 times?
+SELECT 
+	account_id,
+	COUNT(channel) AS contacted_times
+FROM web_events
+JOIN accounts
+	ON web_events.account_id = accounts.id
+WHERE channel = 'facebook'
+GROUP BY account_id
+HAVING COUNT(channel) > 6
+ORDER BY contacted_times
+
+-- Which account used facebook most as a channel?
+
+SELECT 
+	account_id,
+	COUNT(channel) AS contacted_times
+FROM web_events
+JOIN accounts
+	ON web_events.account_id = accounts.id
+WHERE channel = 'facebook'
+GROUP BY account_id
+ORDER BY contacted_times DESC
+LIMIT 1
+
+-- Which channel was most frequently used by most accounts?
+
+SELECT 
+	accounts.id,
+	accounts.name,
+	channel,
+	COUNT(channel) AS contacted_times
+FROM web_events
+JOIN accounts
+	ON web_events.account_id = accounts.id
+GROUP BY accounts.id,channel, accounts.name
+ORDER BY contacted_times DESC
+LIMIT 10

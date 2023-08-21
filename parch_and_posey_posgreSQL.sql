@@ -752,3 +752,15 @@ JOIN accounts
 GROUP BY accounts.id,channel, accounts.name
 ORDER BY contacted_times DESC
 LIMIT 10
+
+
+
+
+-- ## DATE Functions
+
+SELECT 
+	DATE_TRUNC('day', occurred_at),
+	SUM(standard_qty) standard_qty_sum
+FROM orders
+GROUP BY DATE_TRUNC('day', occurred_at)
+ORDER BY DATE_TRUNC('day', occurred_at)

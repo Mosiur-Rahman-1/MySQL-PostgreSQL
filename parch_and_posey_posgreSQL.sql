@@ -758,9 +758,72 @@ LIMIT 10
 
 -- ## DATE Functions
 
-SELECT 
-	DATE_TRUNC('day', occurred_at),
-	SUM(standard_qty) standard_qty_sum
+-- Find the sales in terms of total dollars for all orders in each year, ordered from greatest to least. Do you notice any trends in the yearly sales totals?
+
+SELECT
+	DATE_TRUNC('year', occurred_at) AS time_frame_year,
+	SUM(total_amt_usd) AS total_sale_usd
 FROM orders
-GROUP BY DATE_TRUNC('day', occurred_at)
-ORDER BY DATE_TRUNC('day', occurred_at)
+GROUP BY 1
+ORDER BY 2 DESC
+
+	-- ====> Yes, i can see that when from 2013 to 2016 the sales are continously increasing but for 2017 it's the lowest amount. To see that reason why the total sale is falling	we can can see if we breakdown by months 2017 it's just the first month sales and the rest 11 month is still to go.
+
+
+
+
+-- Which month did Parch & Posey have the greatest sales in terms of total dollars? Are all months evenly represented by the dataset?
+SELECT
+	DATE_TRUNC('month', occurred_at) AS time_frame_month,
+	SUM(total_amt_usd) AS total_sale_usd
+FROM orders
+GROUP BY 1
+ORDER BY 2 DESC
+
+	-- ====> December 2016 "2016-12-01 00:00:00" is the month which has the greated sales in terms of total dollars which is 1770282.62 USD. Yes, all months are evenly represented by the dataset.
+
+
+
+-- Which year did Parch & Posey have the greatest sales in terms of total number of orders? Are all years evenly represented by the dataset?
+
+SELECT 
+	DATE_TRUNC('year', occurred_at) AS time_period_year,
+	SUM(total) AS total_order_qty
+FROM orders
+GROUP BY 1
+ORDER BY 2 DESC
+
+	-- ====> The year 2016 "2016-01-01 00:00:00" with total number of order quantity 2041600 has the greatest sales and Yes, all the years are eveenly represented by the dataset.
+
+
+-- Which month did Parch & Posey have the greatest sales in terms of total number of orders? Are all months evenly represented by the dataset?
+
+SELECT
+	DATE_TRUNC('month', occurred_at) AS time_frame_month,
+	SUM(total) AS total_sales_qty
+FROM orders
+GROUP BY 1
+ORDER BY 2 DESC
+
+-- ====> December 2016 "2016-12-01 00:00:00"	with the total amount of 271062 is the greatest sales that perch &posey have so far.
+
+
+-- In which month of which year did Walmart spend the most on gloss paper in terms of dollars?
+
+SELECT 
+	DATE_TRUNC('month', orders.occurred_at) AS order_time_frame,
+	SUM(gloss_amt_usd) AS gloss_amt_usd
+FROM orders
+JOIN accounts
+	ON orders.account_id = accounts.id
+WHERE accounts.name = 'Walmart'
+GROUP BY 1
+ORDER BY 2 DESC
+
+	-- ====> In 2016, May (05) "2016-05-01 00:00:00" Walmart spent 9257.64 USD the most on gloss paper in terms of dollars.
+
+
+
+
+
+-- ## CASE Functions
